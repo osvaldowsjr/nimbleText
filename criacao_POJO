@@ -1,0 +1,88 @@
+
+Criar campos da classe
+  1- Criar apenas o cabeçalho e depois acessar a URL "https://nimbletext.com/Live"
+  2- Usar "public $0 $1;" no campo do pattern
+  3- No primeiro campo, basta escrever o tipo e depois o nome do campo que você quer criar
+    - Cada linha, será uma propriedade diferente e para separar campos basta usar virgulas
+  4- Caso tenha um campo id que seja autoIncrement no construtor associe ao valor -1
+    
+    
+    
+public class Declaracao{
+    //Campos construidos com o nimble text
+
+
+    public Declaracao( //Campos do construtor){
+        //Associacao dos campos do construtor com as propriedades
+        
+    }
+    
+    
+    @Override
+    public String toString(){
+        //Aqui, formatar o padrão necessário para colocar o txt
+        //Escrever o texto da forma certa afim de inserir tudo
+        //de acordo com o padrão da declaração. Escrever a declaração toda
+        // usando os campos da classe para preenchimento correto dos dados
+        
+        
+        return "Isto é um exemplo do cliente" + this.id + "que tem o rendimento" + this.rendimento;
+    }
+}
+
+
+
+Criação do DAO com singleton
+
+public class SingletonDeclaracaoDAO{
+    private Connection connection;
+    private SingeltonDeclaracaoDAO instance = null;
+    public static SingeltonDeclaracaoDAO getInstance(){
+        if(instance == null)
+            instance = new SingeltonDeclaracaoDAO(//URL DO BANCO );
+        return instance;
+    }
+    
+    private SingeltonDeclaracaoDAO(String myConnection){
+        try{
+            connection = DriverManager.getConnection(myConnnection);
+            connection.setAutoCommit(false);        
+        } catch(SQLException e){
+            e.printStackTrace();
+            connection = null;
+        }
+    }
+    
+    public List<Declaracao> getAllDeclaracao(){
+        List<Declaracao> declaracoes = new ArrayList<>();
+        
+        try{
+            Statement comandoSql = connection.createStatement();
+            ResultSet rs = comandoSql.executeQuery("SELECT * FROM //NomeDaTabela");
+            while(rs.next()){
+                Declaracao declaracao = new Declaracao(rs.getString("nome),....)
+                //Nesses campos da declaração, temos que ver o tipo para selecionar o nome certo e
+                //passar entre aspas o nome do campo na tabela. É importante respeitar a ordem do 
+                //construtor
+                declaracao.id = rs.getInt("id"); //Caso o id seja em int
+                
+                //Construção do arquivo
+                File file = new File("c://temp//nomeDoArquivo"+id); //Salvar na pasta temp com o nome "NomeDoArquivoID"
+                FileWriter writer = new FileWriter(file);
+                writer.write(declaracao.toString());
+                writer.close();
+                //
+                
+                declaracoes.add(declaracao);
+            };
+            rs.close();
+            
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+        return declaracoes
+        
+    }
+
+}
